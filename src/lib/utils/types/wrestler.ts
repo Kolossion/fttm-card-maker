@@ -22,7 +22,7 @@ export type Quality = {
   subtext?: string
 }
 
-export type Move = {
+export interface Move {
   name: string
   subtext?: string
 }

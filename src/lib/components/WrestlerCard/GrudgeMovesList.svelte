@@ -47,11 +47,11 @@
 	}
 
 	.grudge-moves .grudge:first-child {
-		border-radius: 15px 15px 0 0;
+		border-radius: 20px 20px 0 0;
 	}
 
 	.grudge-moves .grudge:last-child {
-		border-radius: 0 0 15px 15px;
+		border-radius: 0 0 20px 20px;
 	}
 
 	.grudge-moves .grudge .name {

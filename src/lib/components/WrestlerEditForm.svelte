@@ -23,6 +23,8 @@
 		DEFAULT_WRESTLER
 	} from '$lib/stores';
 	import type { Wrestler } from '$lib/utils/types/wrestler';
+	import Color from 'color';
+	import GrudgeMovesList from './WrestlerCard/GrudgeMovesList.svelte';
 
 	let activeWrestler: Wrestler = DEFAULT_WRESTLER;
 	let hasGrudgeMoves: boolean = true;
@@ -64,13 +66,76 @@
 		const target = e?.target as HTMLInputElement;
 		showCutMarks.set(target.checked);
 	}
+
+	function selectPromotion(e) {
+		const newPromotion = e.detail.value;
+		// @ts-ignore
+		updateWrestlerKey('promotion')({ target: { value: newPromotion } });
+	}
+
+	function updateGrudgeMove(color: string) {
+		return (e) => {
+			wrestlers.update((wrestlers) => {
+				let grudgeMoveObj = activeWrestler.grudgeMoves
+
+				if (grudgeMoveObj == null) {
+					grudgeMoveObj = {
+						
+					}
+
+				}
+
+
+				wrestlers[$selectedWrestler] = {
+					...activeWrestler,
+					grudgeMoves: {
+						...activeWrestler.grudgeMoves,
+						[color]: {name: "Blah", pointValue: 3}
+					}
+				}
+
+				return wrestlers
+			})
+		}
+	}
+
+	function updateWrestlerPrimaryColor(e) {
+		const color = e.detail.hex;
+		wrestlers.update((wrestlers) => {
+			wrestlers[$selectedWrestler] = {
+				...activeWrestler,
+				colors: {
+					...activeWrestler.colors,
+					primary: Color(color, 'hex')
+				}
+			};
+
+			return wrestlers;
+		});
+	}
+
+	function updateWrestlerSecondaryColor(e) {
+		console.log('SECONDARY', e);
+		const color = e.detail.hex;
+		wrestlers.update((wrestlers) => {
+			wrestlers[$selectedWrestler] = {
+				...activeWrestler,
+				colors: {
+					...activeWrestler.colors,
+					secondary: color ? Color(color, 'hex') : undefined
+				}
+			};
+
+			return wrestlers;
+		});
+	}
 </script>
 
 <div class="flex flex-col gap-4">
 	<div class="flex gap-4">
 		<ColorPicker
 			label=""
-			on:input={console.log}
+			on:input={updateWrestlerPrimaryColor}
 			bind:hex={primaryHex}
 			bind:rgb={primaryRgb}
 			bind:hsv={primaryHsv}
@@ -79,6 +144,7 @@
 		<ColorPicker
 			nullable
 			label=""
+			on:input={updateWrestlerSecondaryColor}
 			bind:hex={secondaryHex}
 			bind:rgb={secondaryRgb}
 			bind:hsv={secondaryHsv}
@@ -111,18 +177,15 @@
 	<div class="flex w-full gap-4">
 		<div class="flex grow basis-6/12 flex-col gap-4">
 			<WordBox title="Qualities"></WordBox>
-			<WordBox title="Promotion">
-				<PromotionSelector bind:selected={selectedPromotion} />
-			</WordBox>
 		</div>
 	</div>
 	<div class="flex w-full gap-4">
 		<div class="flex grow basis-6/12 flex-col gap-4">
 			{#if hasGrudgeMoves}
 				<div class="flex flex-col gap-4">
-					<MoveEditor color="rgb(165, 119, 4)" label="Gold" />
-					<MoveEditor color="rgb(69, 105, 105)" label="Silver" />
-					<MoveEditor color="brown" label="Bronze" />
+					<MoveEditor color="rgb(165, 119, 4)" label="Gold" hideSymbolSelector hideValueType hideExtraRules on:change={updateGrudgeMove('gold')}/>
+					<MoveEditor color="rgb(69, 105, 105)" label="Silver" hideSymbolSelector hideValueType hideExtraRules/>
+					<MoveEditor color="brown" label="Bronze" hideSymbolSelector hideValueType hideExtraRules/>
 				</div>
 			{/if}
 		</div>
@@ -133,7 +196,7 @@
 						<input
 							type="checkbox"
 							on:change={setGrudgeMoveVisibility}
-							value={hasGrudgeMoves}
+							checked={hasGrudgeMoves}
 							id="hasGrudge"
 						/>
 						<Label for="hasGrudge">Enable Grudge Moves</Label>
@@ -142,7 +205,7 @@
 						<input
 							type="checkbox"
 							on:change={setCutGuideVisibility}
-							value={hasCutMarks}
+							checked={hasCutMarks}
 							id="cutMarks"
 						/>
 						<Label for="cutMarks">Render Cut Guides</Label>
@@ -150,9 +213,34 @@
 				</div>
 			</WordBox>
 			<MoveEditor label="Specialty" />
-			<MoveEditor label="Finisher" />
+			<MoveEditor label="Finisher" hideSymbolSelector />
 		</div>
 	</div>
+	<div class="flex w-full gap-4">
+		<div class="flex grow basis-6/12 flex-col gap-4">
+			<WordBox title="Promotion">
+				<PromotionSelector selected={selectedPromotion} on:change={selectPromotion} />
+			</WordBox>
+		</div>
+	</div>
+	<WordBox title="Other Data">
+		<div class="flex w-full gap-4">
+			<div class="flex grow basis-6/12 flex-col gap-4">
+				<Input
+					placeholder="Set Code"
+					value={activeWrestler?.set}
+					on:input={updateWrestlerKey('set')}
+				/>
+			</div>
+			<div class="flex grow basis-6/12 flex-col gap-4">
+				<Input
+					placeholder="Set Code"
+					value={activeWrestler?.set}
+					on:input={updateWrestlerKey('set')}
+				/>
+			</div>
+		</div>
+	</WordBox>
 	<Separator />
 	<div class="flex w-full gap-4">
 		<BasicShape symbol="circle" />

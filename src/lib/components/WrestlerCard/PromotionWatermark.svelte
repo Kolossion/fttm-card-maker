@@ -24,8 +24,10 @@
 	}
 
 	.promotion img {
-		height: calc(100% - 20%);
+		height: 80%;
+		width: 80%;
 		max-height: 450px;
+		object-fit: contain;
 		opacity: 0.25;
 	}
 </style>

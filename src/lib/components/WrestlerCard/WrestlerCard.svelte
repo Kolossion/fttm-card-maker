@@ -19,7 +19,12 @@
 	{/if}
 
 	<div class="content">
-		<CardBackdrop />
+		<CardBackdrop
+			primaryColor={$wrestler.colors.primary.hex().toString()}
+			secondaryColor={$wrestler.colors.secondary
+				? $wrestler.colors?.secondary?.hex()?.toString()
+				: null}
+		/>
 		<CardHeader {...$wrestler} />
 		<div class="grad-box">
 			<div class="body">
@@ -83,7 +88,7 @@
 		<div class="footer">
 			<span>{$wrestler.promotion}</span>
 			<div class="card-id">
-				{$wrestler.promotion}-3
+				{$wrestler.set || 'FTTM'}-3
 			</div>
 		</div>
 	</div>
@@ -206,7 +211,7 @@ FONTS:
 		z-index: 2;
 		min-height: 525px;
 		overflow: hidden;
-		border-radius: 15px;
+		border-radius: 20px;
 	}
 
 	.card .content .body .image {
@@ -229,7 +234,7 @@ FONTS:
 		flex-direction: column;
 
 		background: var(--section-background);
-		border-radius: 15px;
+		border-radius: 20px;
 		color: white;
 	}
 

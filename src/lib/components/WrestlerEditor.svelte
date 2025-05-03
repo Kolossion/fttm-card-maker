@@ -7,7 +7,7 @@
 
 <Resizable.PaneGroup direction="horizontal" class="rounded-lg">
 	<Resizable.Pane defaultSize={30} minSize={25} maxSize={40}>
-		<div class="flex items-center justify-center p-6">
+		<div class="flex h-1/2 items-center justify-center p-6">
 			<CardPreview />
 		</div>
 	</Resizable.Pane>

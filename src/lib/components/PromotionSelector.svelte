@@ -1,14 +1,20 @@
 <script lang="ts">
 	import PromotionImage from './PromotionImage.svelte';
 	import { promotions, type Promotion } from '$lib/utils/types/promotions';
+	import { createEventDispatcher, type EventDispatcher } from 'svelte';
 	import clsx from 'clsx';
+
+	const dispatch: EventDispatcher<any> = createEventDispatcher<{ value: string }>();
 
 	const promotionsList: readonly Promotion[] = promotions;
 
 	export let selected: String | null = null;
 
-	const clickPromo = (promo: String) => (e) => {
+	const clickPromo = (promo: String) => (e: Event) => {
 		selected = promo;
+		dispatch('change', {
+			value: selected
+		});
 	};
 </script>
 

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	export let name;
 	export let nickname;
 	export let height;
@@ -7,6 +7,11 @@
 	// your script goes here
 	import { wrestler } from '$lib/stores';
 	import blankImg from '$lib/assets/blank.jpeg';
+	import { nameHeight } from '$lib/stores';
+
+	let nameHeightVal: number = 0;
+
+	$: nameHeight.update((height) => (height = nameHeightVal));
 </script>
 
 <div class="header">
@@ -14,7 +19,7 @@
 		{#if nickname}
 			<div class="nickname">{nickname}</div>
 		{/if}
-		<div class="name">{name}</div>
+		<div bind:offsetHeight={nameHeightVal} class="name">{name}</div>
 	</div>
 
 	<div class="stats">
