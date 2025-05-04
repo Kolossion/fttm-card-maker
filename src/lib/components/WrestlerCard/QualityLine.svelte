@@ -2,11 +2,21 @@
 	import { getStringFromSymbol } from '$lib/utils/stringUtils';
 	import type { TimingSymbol } from '$lib/utils/types/wrestler';
 
-	// your script goes here
-	export let symbol: TimingSymbol = 'star';
-	export let name: string;
-	export let subtext: string | undefined = undefined;
-	export let variant: string | undefined = undefined;
+	
+	interface Props {
+		// your script goes here
+		symbol?: TimingSymbol;
+		name: string;
+		subtext?: string | undefined;
+		variant?: string | undefined;
+	}
+
+	let {
+		symbol = 'star',
+		name,
+		subtext = undefined,
+		variant = undefined
+	}: Props = $props();
 </script>
 
 <!--

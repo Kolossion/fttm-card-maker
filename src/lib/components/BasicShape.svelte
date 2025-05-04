@@ -6,7 +6,11 @@
 		arrow: 'V'
 	} as const;
 
-	export let symbol: string;
+	interface Props {
+		symbol: string;
+	}
+
+	let { symbol }: Props = $props();
 </script>
 
 <span class="symbol">{shapesMap[symbol]}</span>

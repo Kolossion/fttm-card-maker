@@ -1,7 +1,12 @@
 <script lang="ts">
 	import type { GrudgeMove } from '$lib/utils/types/wrestler';
-	// your script goes here
-	export let moves: { gold: GrudgeMove; silver: GrudgeMove; bronze: GrudgeMove };
+	
+	interface Props {
+		// your script goes here
+		moves: { gold: GrudgeMove; silver: GrudgeMove; bronze: GrudgeMove };
+	}
+
+	let { moves }: Props = $props();
 </script>
 
 <div class="grudge-moves">

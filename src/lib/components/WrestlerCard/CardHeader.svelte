@@ -1,17 +1,23 @@
 <script lang="ts">
-	export let name;
-	export let nickname;
-	export let height;
-	export let weight;
-	export let location;
-	// your script goes here
-	import { wrestler } from '$lib/stores';
+	import { run } from 'svelte/legacy';
+
+	import { getCurrentWrestler } from '$lib/stores.svelte';
 	import blankImg from '$lib/assets/blank.jpeg';
-	import { nameHeight } from '$lib/stores';
+	import { getNameHeight } from '$lib/stores.svelte';
+	let {
+		name,
+		nickname,
+		height,
+		weight,
+		location
+	} = $props();
 
-	let nameHeightVal: number = 0;
+	// let nameHeightVal: number = $state(0);
+	let nameHeightVal = getNameHeight();
 
-	$: nameHeight.update((height) => (height = nameHeightVal));
+	// run(() => {
+	// 	nameHeight.update((height) => (height = nameHeightVal));
+	// });
 </script>
 
 <div class="header">

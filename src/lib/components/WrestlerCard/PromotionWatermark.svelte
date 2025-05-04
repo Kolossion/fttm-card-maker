@@ -4,7 +4,11 @@
 	// your script goes here
 	import { promotionNamesMap, type Promotion } from '$lib/utils/types/promotions';
 
-	export let promotion: Promotion;
+	interface Props {
+		promotion: Promotion;
+	}
+
+	let { promotion }: Props = $props();
 </script>
 
 <div class="promotion">

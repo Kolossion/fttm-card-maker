@@ -1,18 +1,25 @@
 <script lang="ts">
-	import { nameHeight } from '$lib/stores';
+	import { getNameHeight } from '$lib/stores.svelte';
 
-	export let primaryColor: string = '#ff0000';
-	export let secondaryColor: string | null = null;
+	interface Props {
+		primaryColor?: string;
+		secondaryColor?: string | null;
+	}
 
-	let longName = false;
-	const unsub = nameHeight.subscribe((height) => (longName = height > 75));
+	let { primaryColor = '#000000', secondaryColor = null }: Props = $props();
 
-	$: calculateFrameGradient = (primary: string, secondary: string | null): string => {
+	let longName: boolean = $derived(getNameHeight() > 75)
+	console.log("PRIMARY", primaryColor)
+	console.log("SECONDARY", secondaryColor)
+
+	let calculateFrameGradient = $derived((primary: string, secondary: string | null): string => {
+		console.log("PRIMARY", primary)
+		console.log("SECONDARY", secondary)
 		if (secondary == null) {
 			if (longName) {
-				return `linear-gradient(0deg, #000 5%, ${primaryColor} 10%, ${primaryColor} 75%, #000 80%)`;
+				return `linear-gradient(0deg, #000 5%, ${primary} 10%, ${primary} 75%, #000 80%)`;
 			} else {
-				return `linear-gradient(0deg, #000 5%, ${primaryColor} 10%, ${primaryColor} 80%, #000 85%)`;
+				return `linear-gradient(0deg, #000 5%, ${primary} 10%, ${primary} 80%, #000 85%)`;
 			}
 		} else {
 			if (longName) {
@@ -21,9 +28,9 @@
 				return `linear-gradient(0deg, #000 5%, ${secondary} 10%, ${primary} 30%, ${primary} 80%, #000 85%)`;
 			}
 		}
-	};
+	});
 
-	$: frameGradient = calculateFrameGradient(primaryColor, secondaryColor);
+	let frameGradient = $derived(calculateFrameGradient(primaryColor, secondaryColor));
 </script>
 
 <div class="backdrop" style="--frame-color: {frameGradient}"></div>

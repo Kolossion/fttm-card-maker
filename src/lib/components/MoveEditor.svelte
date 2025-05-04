@@ -14,16 +14,27 @@
 
 	type T = $$Generic
 
-	export let label: String | null = null;
-	export let color: String | null = null;
-	export let hideSymbolSelector: boolean = false;
-	export let hideValueType: boolean = false;
-	export let hideExtraRules: boolean = false;
-	export let move: Move = { name: 'UNDEFINED' };
+	interface Props {
+		label?: String | null;
+		color?: String | null;
+		hideSymbolSelector?: boolean;
+		hideValueType?: boolean;
+		hideExtraRules?: boolean;
+		move?: Move;
+	}
+
+	let {
+		label = null,
+		color = null,
+		hideSymbolSelector = false,
+		hideValueType = false,
+		hideExtraRules = false,
+		move = { name: 'UNDEFINED' }
+	}: Props = $props();
 
 	const dispatch: EventDispatcher<any> = createEventDispatcher<Move>();
 
-	let currentSymbol: TimingSymbol = 'star';
+	let currentSymbol: TimingSymbol = $state('star');
 	let moveState: T = {
 		name: move.name || "",
 		pointValue: move.pointValue || 0,

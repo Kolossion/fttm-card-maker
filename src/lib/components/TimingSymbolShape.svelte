@@ -1,7 +1,11 @@
 <script lang="ts">
 	import BasicShape from './BasicShape.svelte';
 
-	export let symbol: string;
+	interface Props {
+		symbol: string;
+	}
+
+	let { symbol }: Props = $props();
 </script>
 
 {#if symbol === 'unknown'}

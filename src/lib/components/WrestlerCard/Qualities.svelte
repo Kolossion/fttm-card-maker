@@ -1,9 +1,13 @@
 <script lang="ts">
 	// your script goes here
 	import type { Quality } from '$lib/utils/types/wrestler';
-	export let qualities: Array<Quality> = [];
 
 	import QualityLine from './QualityLine.svelte';
+	interface Props {
+		qualities?: Array<Quality>;
+	}
+
+	let { qualities = [] }: Props = $props();
 </script>
 
 <div class="qualities">

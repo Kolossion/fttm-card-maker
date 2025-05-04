@@ -1,10 +1,21 @@
 <script lang="ts">
 	import clsx from 'clsx';
 	import { slide } from 'svelte/transition';
-	export let title: String;
-	export let color: String | null = null;
-	export let fullHeight: boolean = false;
-	export let textColor: String | null = null;
+	interface Props {
+		title: String;
+		color?: String | null;
+		fullHeight?: boolean;
+		textColor?: String | null;
+		children?: import('svelte').Snippet;
+	}
+
+	let {
+		title,
+		color = null,
+		fullHeight = false,
+		textColor = null,
+		children
+	}: Props = $props();
 </script>
 
 <div
@@ -17,7 +28,7 @@
 >
 	<p class="title">{title}</p>
 	<div class="contents">
-		<slot></slot>
+		{@render children?.()}
 	</div>
 </div>
 
@@ -25,7 +36,6 @@
 	.word-box {
 		position: relative;
 		border: 1px solid var(--word-box-color);
-		color: var(--word-box-color);
 		border-radius: 5px;
 		padding: 1rem;
 		padding-top: 2rem;

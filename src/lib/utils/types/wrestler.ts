@@ -44,7 +44,7 @@ export type GrudgeMove = Move & {
   pointValue: PointValue
 }
 
-export type Wrestler = {
+export interface Wrestler extends Record<string, any> {
   id: number
   setCode: string
   name: string
@@ -64,8 +64,9 @@ export type Wrestler = {
   } | null
   promotion: Promotion
   colors: {
+    text: Color
     primary: Color
-    secondary?: Color
+    secondary: Color | null
   }
   set: string
 }

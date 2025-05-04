@@ -8,7 +8,11 @@
 
 	const promotionsList: readonly Promotion[] = promotions;
 
-	export let selected: String | null = null;
+	interface Props {
+		selected?: String | null;
+	}
+
+	let { selected = $bindable(null) }: Props = $props();
 
 	const clickPromo = (promo: String) => (e: Event) => {
 		selected = promo;
@@ -22,7 +26,7 @@
 	{#each promotionsList as promo}
 		<button
 			class={clsx('promo-button', { selected: selected === promo })}
-			on:click={clickPromo(promo)}
+			onclick={clickPromo(promo)}
 		>
 			<PromotionImage name={promo} />
 		</button>

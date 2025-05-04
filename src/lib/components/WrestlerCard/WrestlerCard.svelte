@@ -1,17 +1,27 @@
+<!-- @migration-task Error while migrating Svelte code: Expected a valid CSS identifier
+https://svelte.dev/e/css_expected_identifier -->
 <script>
 	import CardHeader from './CardHeader.svelte';
 
 	// your script goes here
-	import { wrestler, showCutMarks, showGrudgeMoves } from '$lib/stores';
 	import GrudgeMovesList from '$lib/components/WrestlerCard/GrudgeMovesList.svelte';
 	import CardBackdrop from './CardBackdrop.svelte';
 	import blankImg from '$lib/assets/blank.jpeg';
 	import Qualities from '$lib/components/WrestlerCard/Qualities.svelte';
 	import PromotionWatermark from './PromotionWatermark.svelte';
+	import { getCurrentWrestler, getShowCutMarks, getShowGrudgeMoves } from '$lib/stores.svelte';
+
+	const wrestler = $derived(getCurrentWrestler())
+	const showCutMarks = $derived(getShowCutMarks())
+	const showGrudgeMoves = $derived(getShowGrudgeMoves())
+
+	const primaryColor = $derived(wrestler.colors.primary.hex().toString())
+	const secondaryColor = $derived(wrestler.colors?.secondary)
+	
 </script>
 
-<div class="card">
-	{#if $showCutMarks}
+<div class="card" style="--text-color: {wrestler.colors.text.hsl}">
+	{#if showCutMarks}
 		<div class="cut-mark tl"></div>
 		<div class="cut-mark tr"></div>
 		<div class="cut-mark bl"></div>
@@ -20,15 +30,13 @@
 
 	<div class="content">
 		<CardBackdrop
-			primaryColor={$wrestler.colors.primary.hex().toString()}
-			secondaryColor={$wrestler.colors.secondary
-				? $wrestler.colors?.secondary?.hex()?.toString()
-				: null}
+			primaryColor={primaryColor}
+			secondaryColor={secondaryColor ? secondaryColor.hex().toString() : null}
 		/>
-		<CardHeader {...$wrestler} />
+		<CardHeader {...wrestler} />
 		<div class="grad-box">
 			<div class="body">
-				<Qualities qualities={$wrestler.qualities} />
+				<Qualities qualities={wrestler.qualities} />
 				<!-- {{#if card.image}}
               <img class="image" src="{{ index assets card.image }}" />
               {{else}} -->
@@ -36,8 +44,8 @@
 				<!-- {{/if}} -->
 			</div>
 
-			{#if $showGrudgeMoves && $wrestler.grudgeMoves}
-				<GrudgeMovesList moves={$wrestler.grudgeMoves} />
+			{#if showGrudgeMoves && wrestler.grudgeMoves}
+				<GrudgeMovesList moves={wrestler.grudgeMoves} />
 			{/if}
 
 			<div class="specials">
@@ -55,13 +63,13 @@
 					</div>
 					<div class="rules">
 						<div class="text">
-							<p class="move-name">{$wrestler.specialty.name}</p>
-							{#if $wrestler.specialty.subtext}
-								<p class="note"><i>\]</i> {$wrestler.specialty.subtext}</p>
+							<p class="move-name">{wrestler.specialty.name}</p>
+							{#if wrestler.specialty.subtext}
+								<p class="note"><i>\]</i> {wrestler.specialty.subtext}</p>
 							{/if}
 						</div>
 						<div class="score">
-							{$wrestler.specialty.pointValue}
+							{wrestler.specialty.pointValue}
 						</div>
 					</div>
 				</div>
@@ -72,23 +80,23 @@
 					<div class="title-bar">Finisher</div>
 					<div class="rules">
 						<div class="text">
-							<p class="move-name">{$wrestler.finisher.name}</p>
-							{#if $wrestler.finisher.subtext}
-								<p class="note"><i>\]</i> {$wrestler.finisher.subtext}</p>
+							<p class="move-name">{wrestler.finisher.name}</p>
+							{#if wrestler.finisher.subtext}
+								<p class="note"><i>\]</i> {wrestler.finisher.subtext}</p>
 							{/if}
 						</div>
 						<div class="score">
-							{$wrestler.finisher.finisherRange.high}
+							{wrestler.finisher.finisherRange.high}
 						</div>
 					</div>
 				</div>
-				<PromotionWatermark promotion={$wrestler.promotion} />
+				<PromotionWatermark promotion={wrestler.promotion} />
 			</div>
 		</div>
 		<div class="footer">
-			<span>{$wrestler.promotion}</span>
+			<span>{wrestler.promotion}</span>
 			<div class="card-id">
-				{$wrestler.set || 'FTTM'}-3
+				{wrestler.set || 'FTTM'}-3
 			</div>
 		</div>
 	</div>
@@ -134,6 +142,7 @@ FONTS:
 
 		--text-outline-size: 3px;
 		--text-outline-size-neg: -3px;
+		/* --text-color: hsl(0, 0%, {{card.text-color}}%); */
 		--text-outline: var(--text-outline-size-neg) var(--text-outline-size-neg) 0 #000,
 			var(--text-outline-size) var(--text-outline-size-neg) 0 #000,
 			var(--text-outline-size-neg) var(--text-outline-size) 0 #000,
@@ -142,7 +151,6 @@ FONTS:
 			var(--text-outline-size) var(--text-outline-size-neg) 0 #fff,
 			var(--text-outline-size-neg) var(--text-outline-size) 0 #fff,
 			var(--text-outline-size) var(--text-outline-size) 0 #fff;
-		--text-color: hsl(0, 0%, {{card.text-color}}%);
 		/* --primary-color: hsl({{card.primary}}, 70%, 40%); */
 		/* --background-texture: url({{ assets.denim }}); */
 		--promotion-watermark: url({{ index assets card.promotion }});
