@@ -13,7 +13,7 @@ export function toKebabCase(input: string): string {
   return ('' + input).trim().replace(/ /g, '-').toLowerCase();
 }
 
-export function getStringFromSymbol(symbol: TimingSymbol) {
+export function getStringFromSymbol(symbol: TimingSymbol | undefined) {
   switch (symbol) {
     case "box":
       return "C"
@@ -22,6 +22,7 @@ export function getStringFromSymbol(symbol: TimingSymbol) {
     case "star":
       return 'F'
     case "unknown":
+      return '?'
     default:
       return ''
   }

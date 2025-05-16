@@ -7,13 +7,34 @@ export const timingSymbols = {
   'box': "Box",
   'unknown': "?",
 } as const
+
+export const QUALITY_OPTIONS: { value: QualityName, label: string }[] = [
+  { value: 'agile', label: "Agile" },
+  { value: 'cheat', label: "Cheat" },
+  { value: 'favorite', label: "Favorite" },
+  { value: 'heavy', label: "Heavy" },
+  { value: 'helped', label: "Helped" },
+  { value: 'mean', label: "Mean" },
+  { value: 'object', label: "Object" },
+  { value: 'powerful', label: "Powerful" },
+  { value: 'quick', label: "Quick" },
+  { value: 'smart', label: "Smart" },
+  { value: 'strong', label: "Strong" },
+]
+
+export const QUALITY_VARIANT_OPTIONS: { value: QualityVariant, label: string }[] = [
+  { value: 'g', label: "G" },
+  { value: 'm', label: "M" },
+  { value: 'v', label: "V" },
+]
+
 export type TimingSymbol = keyof typeof timingSymbols
 
 export type Gender = 'male' | 'female' | 'other' | 'n/a'
 
 export type QualityName = 'agile' | 'cheat' | 'favorite' | 'heavy' | 'helped' | 'mean' | 'object' | 'powerful' | 'quick' | 'smart' | 'strong'
 export type QualityVariant = 'g' | 'm' | 'v'
-export type PointValue = number | 'd'
+export type PointValue = number | 'd' | '?'
 
 export type Quality = {
   name: QualityName
@@ -24,24 +45,20 @@ export type Quality = {
 
 export interface Move {
   name: string
-  subtext?: string
-}
-
-export type SpecialtyMove = Move & {
-  pointValue: PointValue
   symbol?: TimingSymbol
-}
-
-export type FinisherMove = Move & {
-  finisherRange: {
+  subtext?: string
+  pointValue?: PointValue
+  finisherRange?: {
     low: number
     high: number
     special?: boolean
   }
 }
 
-export type GrudgeMove = Move & {
-  pointValue: PointValue
+export interface GrudgeMoves extends Record<string, any> {
+  gold: Move
+  silver: Move
+  bronze: Move
 }
 
 export interface Wrestler extends Record<string, any> {
@@ -54,14 +71,10 @@ export interface Wrestler extends Record<string, any> {
   weight: string
   location: string
   qualities: Array<Quality>
-  specialty: SpecialtyMove
-  finisher: FinisherMove
+  specialty: Move
+  finisher: Move
   imageName: string
-  grudgeMoves: {
-    gold: GrudgeMove
-    silver: GrudgeMove
-    bronze: GrudgeMove
-  } | null
+  grudgeMoves: GrudgeMoves
   promotion: Promotion
   colors: {
     text: Color

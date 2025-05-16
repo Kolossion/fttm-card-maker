@@ -9,12 +9,8 @@
 	let { primaryColor = '#000000', secondaryColor = null }: Props = $props();
 
 	let longName: boolean = $derived(getNameHeight() > 75)
-	console.log("PRIMARY", primaryColor)
-	console.log("SECONDARY", secondaryColor)
 
 	let calculateFrameGradient = $derived((primary: string, secondary: string | null): string => {
-		console.log("PRIMARY", primary)
-		console.log("SECONDARY", secondary)
 		if (secondary == null) {
 			if (longName) {
 				return `linear-gradient(0deg, #000 5%, ${primary} 10%, ${primary} 75%, #000 80%)`;

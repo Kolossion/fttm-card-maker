@@ -10,14 +10,16 @@ https://svelte.dev/e/css_expected_identifier -->
 	import Qualities from '$lib/components/WrestlerCard/Qualities.svelte';
 	import PromotionWatermark from './PromotionWatermark.svelte';
 	import { getCurrentWrestler, getShowCutMarks, getShowGrudgeMoves } from '$lib/stores.svelte';
+	import { getStringFromSymbol } from '$lib/utils/stringUtils';
 
-	const wrestler = $derived(getCurrentWrestler())
-	const showCutMarks = $derived(getShowCutMarks())
-	const showGrudgeMoves = $derived(getShowGrudgeMoves())
+	const wrestler = $derived(getCurrentWrestler());
+	const showCutMarks = $derived(getShowCutMarks());
+	const showGrudgeMoves = $derived(getShowGrudgeMoves());
 
-	const primaryColor = $derived(wrestler.colors.primary.hex().toString())
-	const secondaryColor = $derived(wrestler.colors?.secondary)
-	
+	const primaryColor = $derived(wrestler.colors.primary.hex().toString());
+	const secondaryColor = $derived(wrestler.colors?.secondary);
+
+	console.log('SPECIALTY SYMBOL', getStringFromSymbol(wrestler.specialty.symbol));
 </script>
 
 <div class="card" style="--text-color: {wrestler.colors.text.hsl}">
@@ -30,7 +32,7 @@ https://svelte.dev/e/css_expected_identifier -->
 
 	<div class="content">
 		<CardBackdrop
-			primaryColor={primaryColor}
+			{primaryColor}
 			secondaryColor={secondaryColor ? secondaryColor.hex().toString() : null}
 		/>
 		<CardHeader {...wrestler} />
@@ -57,7 +59,7 @@ https://svelte.dev/e/css_expected_identifier -->
                           {{else if (eq card.specialty-symbol "circle")}}
                           5
                           {{else}} -->
-							F
+							{getStringFromSymbol(wrestler.specialty.symbol)}
 							<!-- {{/if}} -->
 						</i> Specialty
 					</div>
@@ -65,7 +67,7 @@ https://svelte.dev/e/css_expected_identifier -->
 						<div class="text">
 							<p class="move-name">{wrestler.specialty.name}</p>
 							{#if wrestler.specialty.subtext}
-								<p class="note"><i>\]</i> {wrestler.specialty.subtext}</p>
+								<p class="note"><i>]</i> {wrestler.specialty.subtext}</p>
 							{/if}
 						</div>
 						<div class="score">
@@ -82,11 +84,11 @@ https://svelte.dev/e/css_expected_identifier -->
 						<div class="text">
 							<p class="move-name">{wrestler.finisher.name}</p>
 							{#if wrestler.finisher.subtext}
-								<p class="note"><i>\]</i> {wrestler.finisher.subtext}</p>
+								<p class="note"><i>]</i> {wrestler.finisher.subtext}</p>
 							{/if}
 						</div>
 						<div class="score">
-							{wrestler.finisher.finisherRange.high}
+							{wrestler.finisher.finisherRange?.high || '??'}
 						</div>
 					</div>
 				</div>
@@ -297,7 +299,7 @@ FONTS:
 	.card .content .specials .note {
 		font-style: italic;
 		font-weight: 700;
-		margin: 0;
+		margin-left: 16px;
 		font-size: 40px;
 	}
 

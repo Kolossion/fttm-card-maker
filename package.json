@@ -21,7 +21,7 @@
 		"@typescript-eslint/eslint-plugin": "^7.0.0",
 		"@typescript-eslint/parser": "^7.0.0",
 		"autoprefixer": "^10.4.16",
-		"bits-ui": "^1.4.4",
+		"bits-ui": "^1.4.6",
 		"clsx": "^2.1.1",
 		"eslint": "^8.56.0",
 		"eslint-config-prettier": "^9.1.0",
@@ -52,6 +52,7 @@
 		"lucide-svelte": "^0.372.0",
 		"paneforge": "^0.0.6",
 		"svelte-awesome-color-picker": "^4.0.1",
+		"svelte-dnd-action": "^0.9.61",
 		"svelte-radix": "^1.1.0"
 	}
 }

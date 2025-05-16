@@ -3,6 +3,6 @@
 	import WrestlerEditor from '$lib/components/WrestlerEditor.svelte';
 </script>
 
-<WordBox fullHeight title="Create a wrestler">
+<WordBox fullHeight fullWidth title="Create a wrestler">
 	<WrestlerEditor />
 </WordBox>

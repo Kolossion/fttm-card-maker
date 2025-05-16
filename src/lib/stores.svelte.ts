@@ -1,5 +1,5 @@
 import type { Promotion } from './utils/types/promotions';
-import type { Wrestler } from './utils/types/wrestler';
+import type { GrudgeMoves, Move, Wrestler } from './utils/types/wrestler';
 import Color from 'color';
 
 export const DEFAULT_WRESTLER: Wrestler = {
@@ -11,13 +11,32 @@ export const DEFAULT_WRESTLER: Wrestler = {
   height: '6\'0"',
   weight: '200',
   location: 'Scranton, NJ',
-  qualities: [{
-    symbol: "star",
-    name: "cheat",
-    variant: "g",
-    subtext: "Balls"
-  }],
+  qualities: [
+    {
+      symbol: "star",
+      name: "cheat",
+      variant: "g",
+      subtext: "Balls"
+    },
+    {
+      symbol: "box",
+      name: "favorite",
+    },
+    {
+      symbol: "star",
+      name: "helped",
+    },
+    {
+      symbol: "circle",
+      name: "strong",
+    },
+    {
+      symbol: "unknown",
+      name: "agile",
+    },
+  ],
   specialty: {
+    symbol: "star",
     name: 'My Special Move',
     subtext: '',
     pointValue: 0
@@ -50,7 +69,7 @@ export const DEFAULT_WRESTLER: Wrestler = {
   colors: {
     primary: new Color({ r: 0, g: 0, b: 0 }, 'rgb'),
     secondary: null,
-    text: new Color({r: 0, g: 0, b: 0}, 'rgb')
+    text: new Color({ r: 0, g: 0, b: 0 }, 'rgb')
   },
   set: ''
 }
@@ -62,23 +81,23 @@ let showGrudgeMoves: boolean = $state(true)
 let showCutMarks: boolean = $state(true)
 let nameHeight: number = $state(0)
 
-export function getCurrentWrestler() {
+export function getCurrentWrestler(): Wrestler {
   return currentWrestler
 }
 
-export function getAllWrestlers() {
+export function getAllWrestlers(): Wrestler[] {
   return wrestlers
 }
 
-export function getShowGrudgeMoves() {
+export function getShowGrudgeMoves(): boolean {
   return showGrudgeMoves
 }
 
-export function getShowCutMarks() {
+export function getShowCutMarks(): boolean {
   return showCutMarks
 }
 
-export function getNameHeight() {
+export function getNameHeight(): number {
   return nameHeight
 }
 
@@ -109,7 +128,6 @@ export function updateCurrentWrestlerPrimaryColor(color: string) {
 }
 
 export function updateCurrentWrestlerSecondaryColor(color: string | null) {
-  console.log("UPDATING SECONDARY", color)
   currentWrestler = {
     ...currentWrestler,
     colors: {
@@ -121,4 +139,12 @@ export function updateCurrentWrestlerSecondaryColor(color: string | null) {
 
 export function updateCurrentWrestlerPromotion(promo: Promotion) {
   currentWrestler.promotion = promo
+}
+
+export function updateCurrentWrestlerMove(moveName: string, move: Move) {
+  currentWrestler[moveName] = move
+}
+
+export function updateCurrentWrestlerGrudgeMove(moveColor: keyof GrudgeMoves & string, move: Move) {
+  currentWrestler.grudgeMoves[moveColor] = move
 }

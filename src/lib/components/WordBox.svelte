@@ -5,6 +5,7 @@
 		title: String;
 		color?: String | null;
 		fullHeight?: boolean;
+		fullWidth?: boolean;
 		textColor?: String | null;
 		children?: import('svelte').Snippet;
 	}
@@ -13,13 +14,14 @@
 		title,
 		color = null,
 		fullHeight = false,
+		fullWidth = false,
 		textColor = null,
 		children
 	}: Props = $props();
 </script>
 
 <div
-	class={clsx('word-box', { 'full-height': fullHeight })}
+	class={clsx('word-box', { 'full-height': fullHeight }, { 'full-width': fullWidth })}
 	style="--word-box-color: {color ? color : 'hsl(var(--border))'};
 	--word-box-text-color: {textColor ? textColor : 'hsl(var(--muted-foreground))'};
 		
@@ -44,6 +46,10 @@
 
 	.full-height {
 		flex-grow: 1;
+	}
+
+	.full-width {
+		width: 100%;
 	}
 
 	.title {

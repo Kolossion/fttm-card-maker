@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { getStringFromSymbol } from '$lib/utils/stringUtils';
 	import type { TimingSymbol } from '$lib/utils/types/wrestler';
+	import clsx from 'clsx';
 
-	
 	interface Props {
 		// your script goes here
 		symbol?: TimingSymbol;
@@ -11,12 +11,7 @@
 		variant?: string | undefined;
 	}
 
-	let {
-		symbol = 'star',
-		name,
-		subtext = undefined,
-		variant = undefined
-	}: Props = $props();
+	let { symbol = 'star', name, subtext = undefined, variant = undefined }: Props = $props();
 </script>
 
 <!--
@@ -36,7 +31,7 @@
 
 <!-- markup (zero or more items) goes here -->
 <li class="quality">
-	<i>{getStringFromSymbol(symbol)}</i>
+	<i class={clsx({ symbol: symbol !== 'unknown' })}>{getStringFromSymbol(symbol)}</i>
 	<span class="text">
 		{name}
 		{#if variant}
@@ -60,15 +55,21 @@
 
 		i {
 			display: block;
-			font-family: 'FnT_BasicShapes1';
 			font-style: normal;
+			font-weight: bold;
+			width: 50px;
 			margin-right: 20px;
 			font-size: 60px;
+			font-family: sans-serif;
 			-webkit-text-stroke: 2px white;
 			text-stroke: 2px white;
 			color: black;
 			text-align: center;
 			vertical-align: middle;
+		}
+
+		i.symbol {
+			font-family: 'FnT_BasicShapes1';
 		}
 
 		.text {
