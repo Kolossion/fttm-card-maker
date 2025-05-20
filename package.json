@@ -45,6 +45,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@thisux/sveltednd": "^0.0.20",
 		"@types/color": "^3.0.6",
 		"color": "^4.2.3",
 		"colord": "^2.9.3",
@@ -52,7 +53,6 @@
 		"lucide-svelte": "^0.372.0",
 		"paneforge": "^0.0.6",
 		"svelte-awesome-color-picker": "^4.0.1",
-		"svelte-dnd-action": "^0.9.61",
 		"svelte-radix": "^1.1.0"
 	}
 }

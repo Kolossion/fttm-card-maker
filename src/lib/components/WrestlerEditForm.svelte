@@ -107,7 +107,7 @@
 	<div class="flex w-full gap-4">
 		<div class="flex grow basis-6/12 flex-col gap-4">
 			<WordBox title="Qualities">
-				<QualityListEditor qualities={activeWrestler.qualities} />
+				<QualityListEditor bind:qualities={activeWrestler.qualities} />
 			</WordBox>
 		</div>
 		<div class="flex grow basis-6/12 flex-col gap-4">

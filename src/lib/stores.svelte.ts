@@ -148,3 +148,12 @@ export function updateCurrentWrestlerMove(moveName: string, move: Move) {
 export function updateCurrentWrestlerGrudgeMove(moveColor: keyof GrudgeMoves & string, move: Move) {
   currentWrestler.grudgeMoves[moveColor] = move
 }
+
+export function addDefaultQuality() {
+  currentWrestler.qualities.push(
+    {
+      symbol: "star",
+      name: "helped",
+    },
+  )
+}

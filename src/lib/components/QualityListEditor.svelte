@@ -1,45 +1,63 @@
 <script lang="ts">
 	import { type Quality } from '$lib/utils/types/wrestler';
-	import { dndzone, dragHandle, dragHandleZone } from 'svelte-dnd-action';
+	import { slide } from 'svelte/transition';
 	import QualityEditor from './QualityEditor.svelte';
-	import { qualityNames } from '$lib/utils/types/qualities';
+	import { ArrowDown, ArrowUp, X } from '@lucide/svelte';
 	import { flip } from 'svelte/animate';
-	import { overrideItemIdKeyNameBeforeInitialisingDndZones } from 'svelte-dnd-action';
-	overrideItemIdKeyNameBeforeInitialisingDndZones('name');
+	import { Button } from './ui/button';
+	import { addDefaultQuality } from '$lib/stores.svelte';
 
 	interface Props {
 		qualities: Quality[];
 	}
 
-	let { qualities }: Props = $props();
+	let { qualities = $bindable([]) }: Props = $props();
 
-	const flipDurationMs = 300;
-
-	function handleDndConsider(e) {
-		console.log('E', e);
-		qualities = e.detail.items;
+	function shiftItem(index: number, change: number) {
+		let item = qualities[index];
+		qualities.splice(index, 1);
+		qualities.splice(index + change, 0, item);
+		qualities = qualities;
 	}
-	function handleDndFinalize(e) {
-		console.log('E F', e);
-		qualities = e.detail.items;
+
+	function removeItem(index: number) {
+		qualities.splice(index, 1);
+		qualities = qualities;
+	}
+
+	function addQuality() {
+		addDefaultQuality();
 	}
 </script>
 
-<section
-	class="width-full flex flex-col gap-2"
-	use:dragHandleZone={{ items: qualities, flipDurationMs }}
-	on:consider={handleDndConsider}
-	on:finalize={handleDndFinalize}
->
+<section class="width-full flex flex-col gap-2">
 	{#each qualities as _quality, idx (idx)}
-		<div
-			class="flex w-full gap-2 rounded-md border p-1"
-			animate:flip={{ duration: flipDurationMs }}
-		>
-			<div use:dragHandle class="w-4 bg-[#fff]"></div>
+		<div class="flex w-full items-center gap-2 rounded-md border p-1" animate:flip transition:slide>
+			<div class="flex flex-col items-center justify-between">
+				<Button onclick={() => shiftItem(idx, -1)} disabled={idx === 0} size="sm" variant="ghost">
+					<ArrowUp size={12} color="#ffffff" />
+				</Button>
+				<Button
+					onclick={() => removeItem(idx)}
+					disabled={qualities.length === 1}
+					size="sm"
+					variant="ghost"
+				>
+					<X size={12} color="#ffffff" />
+				</Button>
+				<Button
+					onclick={() => shiftItem(idx, 1)}
+					disabled={idx === qualities.length - 1}
+					size="icon"
+					variant="ghost"
+				>
+					<ArrowDown size={12} color="#ffffff" />
+				</Button>
+			</div>
 			<QualityEditor bind:quality={qualities[idx]} />
 		</div>
 	{/each}
+	<Button onclick={addQuality} variant="secondary">+ Add Quality</Button>
 </section>
 
 <style>

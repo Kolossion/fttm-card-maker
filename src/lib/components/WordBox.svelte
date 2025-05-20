@@ -23,9 +23,7 @@
 <div
 	class={clsx('word-box', { 'full-height': fullHeight }, { 'full-width': fullWidth })}
 	style="--word-box-color: {color ? color : 'hsl(var(--border))'};
-	--word-box-text-color: {textColor ? textColor : 'hsl(var(--muted-foreground))'};
-		
-		"
+	--word-box-text-color: {textColor ? textColor : 'hsl(var(--muted-foreground))'};"
 	transition:slide
 >
 	<p class="title">{title}</p>
