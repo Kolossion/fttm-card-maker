@@ -18,8 +18,6 @@ https://svelte.dev/e/css_expected_identifier -->
 
 	const primaryColor = $derived(wrestler.colors.primary.hex().toString());
 	const secondaryColor = $derived(wrestler.colors?.secondary);
-
-	console.log('SPECIALTY SYMBOL', getStringFromSymbol(wrestler.specialty.symbol));
 </script>
 
 <div class="card" style="--text-color: {wrestler.colors.text.hsl}">

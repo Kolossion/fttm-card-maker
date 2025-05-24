@@ -14,25 +14,33 @@
 	let { qualities = $bindable([]) }: Props = $props();
 
 	function shiftItem(index: number, change: number) {
-		let item = qualities[index];
+		console.log('SHIFT');
+		let item = { ...qualities[index] };
 		qualities.splice(index, 1);
 		qualities.splice(index + change, 0, item);
-		qualities = qualities;
+		qualities = [...qualities];
 	}
 
 	function removeItem(index: number) {
+		console.log('REMOVE');
 		qualities.splice(index, 1);
-		qualities = qualities;
+		qualities = [...qualities];
 	}
 
 	function addQuality() {
 		addDefaultQuality();
 	}
+
+	console.log('HELLO');
 </script>
 
 <section class="width-full flex flex-col gap-2">
-	{#each qualities as _quality, idx (idx)}
-		<div class="flex w-full items-center gap-2 rounded-md border p-1" animate:flip transition:slide>
+	{#each qualities as _quality, idx (_quality.name)}
+		<div
+			class="flex w-full items-center gap-2 rounded-md border p-1"
+			animate:flip={{ duration: 200 }}
+			transition:slide
+		>
 			<div class="flex flex-col items-center justify-between">
 				<Button onclick={() => shiftItem(idx, -1)} disabled={idx === 0} size="sm" variant="ghost">
 					<ArrowUp size={12} color="#ffffff" />

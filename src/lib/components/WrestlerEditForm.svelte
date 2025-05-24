@@ -108,6 +108,7 @@
 		<div class="flex grow basis-6/12 flex-col gap-4">
 			<WordBox title="Qualities">
 				<QualityListEditor bind:qualities={activeWrestler.qualities} />
+				<!-- <QualityListEditor /> -->
 			</WordBox>
 		</div>
 		<div class="flex grow basis-6/12 flex-col gap-4">

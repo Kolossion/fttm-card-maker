@@ -1,23 +1,9 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
-	import { getCurrentWrestler } from '$lib/stores.svelte';
-	import blankImg from '$lib/assets/blank.jpeg';
+	// import blankImg from '$lib/assets/blank.jpeg';
 	import { getNameHeight } from '$lib/stores.svelte';
-	let {
-		name,
-		nickname,
-		height,
-		weight,
-		location
-	} = $props();
+	let { name, nickname, height, weight, location } = $props();
 
-	// let nameHeightVal: number = $state(0);
-	let nameHeightVal = getNameHeight();
-
-	// run(() => {
-	// 	nameHeight.update((height) => (height = nameHeightVal));
-	// });
+	let nameHeightVal = $derived(getNameHeight());
 </script>
 
 <div class="header">
